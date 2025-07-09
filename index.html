@@ -120,6 +120,43 @@
         window._megoaav3.push({ type: 'pixel_event', cv_type: 'click_button', pixel_id: '175198365910391931'});
       });
     </script>
+    
+<script>
+  // 当页面完全加载后执行以下操作
+  window.onload = function() {
+    try {
+      // 1. 获取当前页面URL中的所有查询参数
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // 2. 从参数中获取'tracking_id'的值 (比如 '666')
+      const trackingId = urlParams.get('tracking_id');
+
+      // 3. 找到页面上所有需要更新的链接。
+      //    一个好的做法是给这些链接一个统一的class，比如 'dynamic-link'
+      const linksToUpdate = document.querySelectorAll('a'); // 这里我们先查找所有的<a>标签
+
+      // 如果成功获取到了tracking_id
+      if (trackingId) {
+        console.log('成功获取到 tracking_id:', trackingId);
+        
+        // 4. 遍历所有找到的链接
+        linksToUpdate.forEach(link => {
+          // 检查链接的href属性是否包含占位符 '[tracking_id]'
+          if (link.href && link.href.includes('[tracking_id]')) {
+            // 5. 用真实的trackingId值替换掉占位符
+            link.href = link.href.replace('[tracking_id]', encodeURIComponent(trackingId));
+            console.log('链接已更新:', link.href);
+          }
+        });
+      } else {
+        console.log('URL中未找到 tracking_id');
+      }
+    } catch (e) {
+      console.error('更新链接时出错:', e);
+    }
+  };
+</script>
+
 
 
 </body>
